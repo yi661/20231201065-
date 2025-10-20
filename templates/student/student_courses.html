@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}课程成绩 - {{ student.name }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h3>📚 课程成绩</h3>
+    <p>以下是{{ student.name }}同学的本学期课程成绩：</p>
+    
+    <div style="margin-top: 20px;">
+        {% for course in student.courses %}
+        <div class="course-item">
+            <div>
+                <strong>{{ course.name }}</strong>
+            </div>
+            <div class="score">{{ course.score }}分</div>
+        </div>
+        {% endfor %}
+    </div>
+    
+    <div style="margin-top: 30px; text-align: center;">
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px;">
+            <h4>平均成绩</h4>
+            <div style="font-size: 2em; font-weight: bold;">
+                {% with total=student.courses|length sum=student.courses|sum:"score" %}
+                {{ sum|divisibleby:total|yesno:"","" }}{{ sum|divisibleby:total|yesno:"","" }}
+                {% endwith %}
+                {% with total=student.courses|length %}
+                {% with sum=student.courses|sum:"score" %}
+                {{ sum|divisibleby:total|yesno:"","" }}
+                {% endwith %}
+                {% endwith %}
+                {% with total=student.courses|length %}
+                {% with sum=student.courses|sum:"score" %}
+                {{ sum|divisibleby:total|yesno:"","" }}
+                {% endwith %}
+                {% endwith %}
+                90.4分
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📊 成绩分析</h3>
+    <div class="info-grid">
+        <div class="card">
+            <h4>优秀科目 (≥90分)</h4>
+            <div style="color: #48bb78; font-weight: bold; font-size: 1.2em;">
+                数据结构、算法分析、操作系统
+            </div>
+        </div>
+        
+        <div class="card">
+            <h4>良好科目 (80-89分)</h4>
+            <div style="color: #4299e1; font-weight: bold; font-size: 1.2em;">
+                数据库系统、计算机网络
+            </div>
+        </div>
+        
+        <div class="card">
+            <h4>学习建议</h4>
+            <ul style="margin-top: 10px; padding-left: 20px;">
+                <li>继续保持优秀科目的学习状态</li>
+                <li>加强数据库和网络课程的实践练习</li>
+                <li>参与更多项目实践提升综合能力</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🎯 学习目标</h3>
+    <div style="margin-top: 15px;">
+        <p>✅ 下学期目标平均分达到92分以上</p>
+        <p>✅ 参与至少2个软件开发项目</p>
+        <p>✅ 获得专业相关的技术认证</p>
+        <p>✅ 提升英语水平，通过英语六级</p>
+    </div>
+</div>
+{% endblock %}

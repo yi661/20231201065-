@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}基本信息 - {{ student.name }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h3>👤 学生基本信息</h3>
+    <div class="info-grid">
+        <div class="card">
+            <h4>身份信息</h4>
+            <div class="info-item">
+                <span class="info-label">学号:</span>
+                <span class="info-value">{{ student.student_id }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">姓名:</span>
+                <span class="info-value">{{ student.name }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">性别:</span>
+                <span class="info-value">{{ student.gender }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">出生日期:</span>
+                <span class="info-value">{{ student.birth_date }}</span>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h4>学业信息</h4>
+            <div class="info-item">
+                <span class="info-label">专业:</span>
+                <span class="info-value">{{ student.major }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">班级:</span>
+                <span class="info-value">{{ student.class_name }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">入学日期:</span>
+                <span class="info-value">{{ student.enrollment_date }}</span>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h4>联系方式</h4>
+            <div class="info-item">
+                <span class="info-label">邮箱:</span>
+                <span class="info-value">{{ student.email }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">电话:</span>
+                <span class="info-value">{{ student.phone }}</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">地址:</span>
+                <span class="info-value">{{ student.address }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🎨 兴趣爱好</h3>
+    <div style="margin-top: 15px;">
+        {% for hobby in student.hobbies %}
+            <span class="tag">{{ hobby }}</span>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card">
+    <h3>💻 技术技能</h3>
+    <div style="margin-top: 15px;">
+        {% for skill in student.skills %}
+            <span class="tag" style="background: #667eea; color: white;">{{ skill }}</span>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card">
+    <h3>📝 个人简介</h3>
+    <div style="margin-top: 15px; line-height: 1.6;">
+        <p>我是{{ student.name }}，{{ student.major }}专业的学生。我对计算机科学充满热情，
+        特别关注软件开发和人工智能领域。在校期间，我积极参与各种学术活动和项目实践，
+        不断提升自己的专业技能和实践能力。</p>
+        
+        <p>我的目标是成为一名优秀的软件工程师，为社会的信息化建设贡献自己的力量。</p>
+    </div>
+</div>
+{% endblock %}

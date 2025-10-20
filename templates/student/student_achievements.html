@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}成就荣誉 - {{ student.name }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h3>🏆 成就荣誉</h3>
+    <p>以下是{{ student.name }}同学在校期间获得的各项荣誉和成就：</p>
+    
+    <div style="margin-top: 20px;">
+        {% for achievement in student.achievements %}
+        <div class="achievement-item">
+            {{ achievement }}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card">
+    <h3>📅 时间线</h3>
+    <div style="margin-top: 20px; position: relative; padding-left: 30px;">
+        <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: #667eea;"></div>
+        
+        <div style="position: relative; margin-bottom: 30px;">
+            <div style="position: absolute; left: -25px; top: 0; width: 12px; height: 12px; background: #667eea; border-radius: 50%;"></div>
+            <div style="background: #f7fafc; padding: 15px; border-radius: 8px; margin-left: 10px;">
+                <strong>2023年9月</strong>
+                <p>入学计算机科学与技术专业</p>
+            </div>
+        </div>
+        
+        <div style="position: relative; margin-bottom: 30px;">
+            <div style="position: absolute; left: -25px; top: 0; width: 12px; height: 12px; background: #667eea; border-radius: 50%;"></div>
+            <div style="background: #f7fafc; padding: 15px; border-radius: 8px; margin-left: 10px;">
+                <strong>2023年12月</strong>
+                <p>获得2023年度优秀学生称号</p>
+            </div>
+        </div>
+        
+        <div style="position: relative; margin-bottom: 30px;">
+            <div style="position: absolute; left: -25px; top: 0; width: 12px; height: 12px; background: #667eea; border-radius: 50%;"></div>
+            <div style="background: #f7fafc; padding: 15px; border-radius: 8px; margin-left: 10px;">
+                <strong>2024年3月</strong>
+                <p>程序设计大赛二等奖</p>
+            </div>
+        </div>
+        
+        <div style="position: relative; margin-bottom: 30px;">
+            <div style="position: absolute; left: -25px; top: 0; width: 12px; height: 12px; background: #667eea; border-radius: 50%;"></div>
+            <div style="background: #f7fafc; padding: 15px; border-radius: 8px; margin-left: 10px;">
+                <strong>2024年6月</strong>
+                <p>通过英语四级考试</p>
+            </div>
+        </div>
+        
+        <div style="position: relative;">
+            <div style="position: absolute; left: -25px; top: 0; width: 12px; height: 12px; background: #667eea; border-radius: 50%;"></div>
+            <div style="background: #f7fafc; padding: 15px; border-radius: 8px; margin-left: 10px;">
+                <strong>2024年9月</strong>
+                <p>获得计算机二级证书</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🎯 未来规划</h3>
+    <div class="info-grid">
+        <div class="card">
+            <h4>短期目标 (2024-2025)</h4>
+            <ul style="margin-top: 10px; padding-left: 20px;">
+                <li>通过英语六级考试</li>
+                <li>获得软件设计师证书</li>
+                <li>参与国家级竞赛</li>
+                <li>完成毕业设计项目</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h4>中期目标 (2025-2027)</h4>
+            <ul style="margin-top: 10px; padding-left: 20px;">
+                <li>考取研究生继续深造</li>
+                <li>掌握人工智能相关技术</li>
+                <li>参与开源项目贡献</li>
+                <li>发表学术论文</li>
+            </ul>
+        </div>
+        
+        <div class="card">
+            <h4>长期目标 (2027+)</h4>
+            <ul style="margin-top: 10px; padding-left: 20px;">
+                <li>成为技术专家</li>
+                <li>创业或加入优秀企业</li>
+                <li>为社会信息化做贡献</li>
+                <li>持续学习新技术</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>💪 个人宣言</h3>
+    <div style="margin-top: 15px; text-align: center; padding: 30px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 10px;">
+        <h4 style="margin-bottom: 15px;">我的座右铭</h4>
+        <p style="font-size: 1.2em; font-style: italic;">
+            "学无止境，技术改变世界。用代码书写未来，用智慧创造价值。"
+        </p>
+        <p style="margin-top: 15px;">—— {{ student.name }}</p>
+    </div>
+</div>
+{% endblock %}

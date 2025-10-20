@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block title %}首页 - {{ student.name }}{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h3>欢迎来到学生信息管理系统</h3>
+    <p>您好，{{ student.name }}同学！这里是您的个人主页。</p>
+</div>
+
+<div class="info-grid">
+    <div class="card">
+        <h3>📊 基本信息概览</h3>
+        <div class="info-item">
+            <span class="info-label">学号:</span>
+            <span class="info-value">{{ student.student_id }}</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">姓名:</span>
+            <span class="info-value">{{ student.name }}</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">专业:</span>
+            <span class="info-value">{{ student.major }}</span>
+        </div>
+        <div class="info-item">
+            <span class="info-label">班级:</span>
+            <span class="info-value">{{ student.class_name }}</span>
+        </div>
+    </div>
+    
+    <div class="card">
+        <h3>🎯 近期动态</h3>
+        <div style="margin-top: 15px;">
+            <p>✅ 已完成本学期所有课程学习</p>
+            <p>📚 正在准备期末考试</p>
+            <p>💼 参与校园实习项目</p>
+            <p>🏆 获得优秀学生称号</p>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🌟 个人标签</h3>
+    <div style="margin-top: 15px;">
+        {% for hobby in student.hobbies %}
+            <span class="tag">{{ hobby }}</span>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="card">
+    <h3>💡 技能特长</h3>
+    <div style="margin-top: 15px;">
+        {% for skill in student.skills %}
+            <span class="tag" style="background: #667eea; color: white;">{{ skill }}</span>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
