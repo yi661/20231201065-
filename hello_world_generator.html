@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hello World 生成器 - 陈磊 20231201065</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        .header {
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .author {
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        
+        .student-id {
+            color: #888;
+            font-size: 1em;
+            margin-bottom: 20px;
+        }
+        
+        .controls {
+            margin: 30px 0;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .output-container {
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .output-label {
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+        
+        .output-box {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 100px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.2em;
+            color: #333;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .secondary-btn {
+            background: #6c757d;
+            box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
+        }
+        
+        .secondary-btn:hover {
+            box-shadow: 0 8px 25px rgba(108, 117, 125, 0.6);
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            color: #888;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 Hello World 生成器</h1>
+            <div class="author">作者: 陈磊</div>
+            <div class="student-id">学号: 20231201065</div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" onclick="generateHelloWorld()">
+                🚀 生成 Hello World
+            </button>
+        </div>
+        
+        <div class="output-container">
+            <label class="output-label">输出结果:</label>
+            <div class="output-box" id="output">
+                点击上方按钮生成Hello World
+            </div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="btn secondary-btn" onclick="copyToClipboard()">
+                📋 复制到剪贴板
+            </button>
+            <button class="btn secondary-btn" onclick="clearOutput()">
+                🗑️ 清空输出
+            </button>
+            <button class="btn secondary-btn" onclick="generateMultiple()">
+                🔄 生成多个
+            </button>
+        </div>
+        
+        <div class="success-message" id="successMessage">
+            文本已成功复制到剪贴板！
+        </div>
+        
+        <div class="footer">
+            <p>这是一个独立的Hello World生成器应用</p>
+            <p>双击此HTML文件即可在浏览器中运行</p>
+        </div>
+    </div>
+
+    <script>
+        function generateHelloWorld() {
+            const output = document.getElementById('output');
+            const timestamp = new Date().toLocaleString('zh-CN');
+            const helloText = `Hello World! 🌍\n\n` +
+                            `生成时间: ${timestamp}\n` +
+                            `作者: 陈磊\n` +
+                            `学号: 20231201065\n` +
+                            `GitHub: https://github.com/yi661/20231201065-\n\n` +
+                            `这是一个演示Hello World生成器的简单应用。`;
+            
+            output.textContent = helloText;
+            output.style.background = '#e8f5e8';
+            output.style.borderColor = '#4caf50';
+            
+            // 添加动画效果
+            output.style.transform = 'scale(1.05)';
+            setTimeout(() => {
+                output.style.transform = 'scale(1)';
+            }, 200);
+        }
+        
+        function generateMultiple() {
+            const output = document.getElementById('output');
+            const timestamp = new Date().toLocaleString('zh-CN');
+            let multipleText = `批量生成 Hello World 🌍\n\n` +
+                             `生成时间: ${timestamp}\n` +
+                             `作者: 陈磊 | 学号: 20231201065\n\n`;
+            
+            for (let i = 1; i <= 5; i++) {
+                multipleText += `${i}. Hello World! 👋\n`;
+            }
+            
+            multipleText += `\n总共生成了5个Hello World消息！`;
+            
+            output.textContent = multipleText;
+            output.style.background = '#fff3cd';
+            output.style.borderColor = '#ffc107';
+        }
+        
+        function copyToClipboard() {
+            const output = document.getElementById('output');
+            const successMessage = document.getElementById('successMessage');
+            
+            if (output.textContent && output.textContent !== '点击上方按钮生成Hello World') {
+                navigator.clipboard.writeText(output.textContent).then(() => {
+                    successMessage.style.display = 'block';
+                    successMessage.style.background = '#d4edda';
+                    successMessage.style.color = '#155724';
+                    successMessage.textContent = '✅ 文本已成功复制到剪贴板！';
+                    
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 3000);
+                }).catch(err => {
+                    successMessage.style.display = 'block';
+                    successMessage.style.background = '#f8d7da';
+                    successMessage.style.color = '#721c24';
+                    successMessage.textContent = '❌ 复制失败，请手动选择文本复制';
+                    
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 3000);
+                });
+            } else {
+                successMessage.style.display = 'block';
+                successMessage.style.background = '#fff3cd';
+                successMessage.style.color = '#856404';
+                successMessage.textContent = '⚠️ 请先生成Hello World文本';
+                
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        function clearOutput() {
+            const output = document.getElementById('output');
+            output.textContent = '点击上方按钮生成Hello World';
+            output.style.background = '#f8f9fa';
+            output.style.borderColor = '#e9ecef';
+            
+            // 添加清除动画
+            output.style.opacity = '0.5';
+            setTimeout(() => {
+                output.style.opacity = '1';
+            }, 300);
+        }
+        
+        // 页面加载时添加欢迎信息
+        window.addEventListener('load', function() {
+            console.log('Hello World生成器已加载 - 作者: 陈磊 20231201065');
+        });
+    </script>
+</body>
+</html>

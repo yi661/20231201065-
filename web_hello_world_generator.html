@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Hello World 生成器 - 陈磊 20231201065</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* 头部样式 */
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .author-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 1.2em;
+            color: #666;
+        }
+        
+        .author, .student-id {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 600;
+        }
+        
+        /* 控制面板样式 */
+        .control-panel {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .tab-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 15px 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 10px 10px 0 0;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+        
+        .tab-btn.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .tab-btn:hover:not(.active) {
+            background: #f8f9fa;
+            color: #333;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .form-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .generate-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+        
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* 输出区域样式 */
+        .output-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .output-section h3 {
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .output-container {
+            margin-bottom: 20px;
+        }
+        
+        .output-box {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 20px;
+            min-height: 150px;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            line-height: 1.8;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+            transition: all 0.3s ease;
+        }
+        
+        .output-box.success {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        
+        .output-box.error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        
+        .output-actions {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .action-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+        
+        .action-btn:hover {
+            background: #5a6268;
+            transform: translateY(-1px);
+        }
+        
+        /* API区域样式 */
+        .api-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .api-section h3 {
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .api-endpoints {
+            display: grid;
+            gap: 15px;
+        }
+        
+        .api-endpoint {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .api-endpoint code {
+            background: #e9ecef;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .api-endpoint span {
+            color: #666;
+            font-size: 0.9em;
+        }
+        
+        /* 页脚样式 */
+        .footer {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .footer p {
+            margin-bottom: 10px;
+            color: #666;
+        }
+        
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 消息提示样式 */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast.success {
+            background: #28a745;
+        }
+        
+        .toast.error {
+            background: #dc3545;
+        }
+        
+        .toast.warning {
+            background: #ffc107;
+            color: #333;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .author-info {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .tab-buttons {
+                flex-direction: column;
+            }
+            
+            .tab-btn {
+                border-radius: 10px;
+                margin-bottom: 5px;
+            }
+            
+            .form-input {
+                max-width: 100%;
+            }
+            
+            .output-actions {
+                justify-content: center;
+            }
+            
+            .api-endpoint {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+        
+        /* 加载动画 */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <header class="header">
+            <h1><i class="fas fa-globe-americas"></i> Web Hello World 生成器</h1>
+            <div class="author-info">
+                <span class="author">作者: 陈磊</span>
+                <span class="student-id">学号: 20231201065</span>
+            </div>
+        </header>
+
+        <!-- 控制面板 -->
+        <div class="control-panel">
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="basic">基础生成</button>
+                <button class="tab-btn" data-tab="multiple">批量生成</button>
+                <button class="tab-btn" data-tab="custom">自定义生成</button>
+            </div>
+
+            <!-- 基础生成标签页 -->
+            <div id="basic" class="tab-content active">
+                <div class="form-group">
+                    <button class="generate-btn" onclick="generateBasic()">
+                        <i class="fas fa-bolt"></i> 生成 Hello World
+                    </button>
+                </div>
+            </div>
+
+            <!-- 批量生成标签页 -->
+            <div id="multiple" class="tab-content">
+                <div class="form-group">
+                    <label for="count">生成数量 (1-100):</label>
+                    <input type="number" id="count" min="1" max="100" value="5" class="form-input">
+                    <button class="generate-btn" onclick="generateMultiple()">
+                        <i class="fas fa-layer-group"></i> 批量生成
+                    </button>
+                </div>
+            </div>
+
+            <!-- 自定义生成标签页 -->
+            <div id="custom" class="tab-content">
+                <div class="form-group">
+                    <label for="language">语言:</label>
+                    <select id="language" class="form-input">
+                        <option value="english">English</option>
+                        <option value="chinese">中文</option>
+                        <option value="spanish">Español</option>
+                        <option value="french">Français</option>
+                        <option value="german">Deutsch</option>
+                        <option value="japanese">日本語</option>
+                        <option value="korean">한국어</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="style">风格:</label>
+                    <select id="style" class="form-input">
+                        <option value="normal">普通</option>
+                        <option value="excited">兴奋</option>
+                        <option value="formal">正式</option>
+                        <option value="casual">休闲</option>
+                        <option value="tech">科技</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="generate-btn" onclick="generateCustom()">
+                        <i class="fas fa-magic"></i> 自定义生成
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 输出区域 -->
+        <div class="output-section">
+            <h3><i class="fas fa-code"></i> 输出结果</h3>
+            <div class="output-container">
+                <pre id="output" class="output-box">点击上方按钮生成Hello World...</pre>
+            </div>
+            <div class="output-actions">
+                <button class="action-btn" onclick="copyToClipboard()">
+                    <i class="fas fa-copy"></i> 复制
+                </button>
+                <button class="action-btn" onclick="clearOutput()">
+                    <i class="fas fa-trash"></i> 清空
+                </button>
+                <button class="action-btn" onclick="downloadOutput()">
+                    <i class="fas fa-download"></i> 下载
+                </button>
+            </div>
+        </div>
+
+        <!-- 应用信息 -->
+        <div class="api-section">
+            <h3><i class="fas fa-info-circle"></i> 应用信息</h3>
+            <div class="api-endpoints">
+                <div class="api-endpoint">
+                    <code>名称</code>
+                    <span>Web Hello World 生成器</span>
+                </div>
+                <div class="api-endpoint">
+                    <code>版本</code>
+                    <span>1.0.0</span>
+                </div>
+                <div class="api-endpoint">
+                    <code>作者</code>
+                    <span>陈磊</span>
+                </div>
+                <div class="api-endpoint">
+                    <code>学号</code>
+                    <span>20231201065</span>
+                </div>
+                <div class="api-endpoint">
+                    <code>GitHub</code>
+                    <span><a href="https://github.com/yi661/20231201065-" target="_blank">项目地址</a></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>&copy; 2024 陈磊 - 学号: 20231201065</p>
+            <p>这是一个完全基于浏览器的Hello World生成器应用，无需服务器支持！</p>
+        </footer>
+    </div>
+
+    <!-- 消息提示 -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // Web Hello World 生成器 - 纯前端JavaScript
+        
+        // Hello World 生成器类
+        class HelloWorldGenerator {
+            static generateBasic() {
+                const timestamp = new Date().toLocaleString('zh-CN');
+                return {
+                    message: "Hello World!",
+                    author: "陈磊",
+                    student_id: "20231201065",
+                    timestamp: timestamp
+                };
+            }
+            
+            static generateMultiple(count = 5) {
+                const messages = [];
+                for (let i = 0; i < count; i++) {
+                    messages.push({
+                        id: i + 1,
+                        message: `Hello World ${i + 1}!`,
+                        timestamp: new Date().toLocaleString('zh-CN')
+                    });
+                }
+                
+                return {
+                    messages: messages,
+                    total: count,
+                    author: "陈磊",
+                    student_id: "20231201065"
+                };
+            }
+            
+            static generateCustom(language = "english", style = "normal") {
+                const greetings = {
+                    english: "Hello World!",
+                    chinese: "你好，世界！",
+                    spanish: "¡Hola Mundo!",
+                    french: "Bonjour le Monde!",
+                    german: "Hallo Welt!",
+                    japanese: "こんにちは世界！",
+                    korean: "안녕하세요 세계!"
+                };
+                
+                const styles = {
+                    normal: "",
+                    excited: "🎉 ",
+                    formal: "👔 ",
+                    casual: "😊 ",
+                    tech: "💻 "
+                };
+                
+                const greeting = greetings[language] || "Hello World!";
+                const stylePrefix = styles[style] || "";
+                
+                return {
+                    message: `${stylePrefix}${greeting}`,
+                    language: language,
+                    style: style,
+                    author: "陈磊",
+                    student_id: "20231201065",
+                    timestamp: new Date().toLocaleString('zh-CN')
+                };
+            }
+        }
+        
+        // 标签页切换功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // 移除所有active类
+                    tabButtons.forEach(btn => btn.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // 添加active类到当前标签
+                    this.classList.add('active');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            console.log('Web Hello World 生成器已加载 - 作者: 陈磊 20231201065');
+        });
+        
+        // 显示消息提示
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // 基础Hello World生成
+        function generateBasic() {
+            const output = document.getElementById('output');
+            const generateBtn = document.querySelector('[onclick="generateBasic()"]');
+            const originalText = generateBtn.innerHTML;
+            
+            // 显示加载状态
+            generateBtn.innerHTML = '<div class="loading"></div> 生成中...';
+            generateBtn.disabled = true;
+            
+            // 模拟异步操作
+            setTimeout(() => {
+                try {
+                    const data = HelloWorldGenerator.generateBasic();
+                    output.textContent = formatBasicOutput(data);
+                    output.className = 'output-box success';
+                    showToast('Hello World生成成功！', 'success');
+                } catch (error) {
+                    output.textContent = `错误: ${error.message}`;
+                    output.className = 'output-box error';
+                    showToast('生成失败，请重试', 'error');
+                } finally {
+                    // 恢复按钮状态
+                    generateBtn.innerHTML = originalText;
+                    generateBtn.disabled = false;
+                }
+            }, 500);
+        }
+        
+        // 格式化基础输出
+        function formatBasicOutput(data) {
+            return `🌍 ${data.message}\n\n` +
+                   `📅 生成时间: ${data.timestamp}\n` +
+                   `👤 作者: ${data.author}\n` +
+                   `🎓 学号: ${data.student_id}\n\n` +
+                   `✨ 这是一个基础的Hello World消息！`;
+        }
+        
+        // 批量生成Hello World
+        function generateMultiple() {
+            const countInput = document.getElementById('count');
+            const count = parseInt(countInput.value) || 5;
+            const output = document.getElementById('output');
+            const generateBtn = document.querySelector('[onclick="generateMultiple()"]');
+            const originalText = generateBtn.innerHTML;
+            
+            // 验证数量
+            if (count < 1 || count > 100) {
+                showToast('数量必须在1-100之间', 'warning');
+                return;
+            }
+            
+            // 显示加载状态
+            generateBtn.innerHTML = '<div class="loading"></div> 批量生成中...';
+            generateBtn.disabled = true;
+            
+            // 模拟异步操作
+            setTimeout(() => {
+                try {
+                    const data = HelloWorldGenerator.generateMultiple(count);
+                    output.textContent = formatMultipleOutput(data);
+                    output.className = 'output-box success';
+                    showToast(`成功生成${count}个Hello World！`, 'success');
+                } catch (error) {
+                    output.textContent = `错误: ${error.message}`;
+                    output.className = 'output-box error';
+                    showToast('批量生成失败，请重试', 'error');
+                } finally {
+                    // 恢复按钮状态
+                    generateBtn.innerHTML = originalText;
+                    generateBtn.disabled = false;
+                }
+            }, 500);
+        }
+        
+        // 格式化批量输出
+        function formatMultipleOutput(data) {
+            let output = `📦 批量生成结果 (共${data.total}个)\n\n`;
+            
+            data.messages.forEach(msg => {
+                output += `${msg.id}. ${msg.message} (${msg.timestamp})\n`;
+            });
+            
+            output += `\n👤 作者: ${data.author}\n`;
+            output += `🎓 学号: ${data.student_id}\n`;
+            output += `\n✨ 批量生成完成！`;
+            
+            return output;
+        }
+        
+        // 自定义生成Hello World
+        function generateCustom() {
+            const language = document.getElementById('language').value;
+            const style = document.getElementById('style').value;
+            const output = document.getElementById('output');
+            const generateBtn = document.querySelector('[onclick="generateCustom()"]');
+            const originalText = generateBtn.innerHTML;
+            
+            // 显示加载状态
+            generateBtn.innerHTML = '<div class="loading"></div> 自定义生成中...';
+            generateBtn.disabled = true;
+            
+            // 模拟异步操作
+            setTimeout(() => {
+                try {
+                    const data = HelloWorldGenerator.generateCustom(language, style);
+                    output.textContent = formatCustomOutput(data);
+                    output.className = 'output-box success';
+                    showToast('自定义Hello World生成成功！', 'success');
+                } catch (error) {
+                    output.textContent = `错误: ${error.message}`;
+                    output.className = 'output-box error';
+                    showToast('自定义生成失败，请重试', 'error');
+                } finally {
+                    // 恢复按钮状态
+                    generateBtn.innerHTML = originalText;
+                    generateBtn.disabled = false;
+                }
+            }, 500);
+        }
+        
+        // 格式化自定义输出
+        function formatCustomOutput(data) {
+            return `🎨 自定义Hello World\n\n` +
+                   `💬 消息: ${data.message}\n` +
+                   `🌐 语言: ${data.language}\n` +
+                   `🎭 风格: ${data.style}\n` +
+                   `📅 生成时间: ${data.timestamp}\n` +
+                   `👤 作者: ${data.author}\n` +
+                   `🎓 学号: ${data.student_id}\n\n` +
+                   `✨ 自定义生成完成！`;
+        }
+        
+        // 复制到剪贴板
+        async function copyToClipboard() {
+            const output = document.getElementById('output');
+            const text = output.textContent;
+            
+            if (!text || text === '点击上方按钮生成Hello World...') {
+                showToast('请先生成Hello World文本', 'warning');
+                return;
+            }
+            
+            try {
+                await navigator.clipboard.writeText(text);
+                showToast('文本已复制到剪贴板！', 'success');
+            } catch (error) {
+                // 降级方案：使用execCommand
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                
+                try {
+                    document.execCommand('copy');
+                    showToast('文本已复制到剪贴板！', 'success');
+                } catch (err) {
+                    showToast('复制失败，请手动选择文本复制', 'error');
+                }
+                
+                document.body.removeChild(textArea);
+            }
+        }
+        
+        // 清空输出
+        function clearOutput() {
+            const output = document.getElementById('output');
+            output.textContent = '点击上方按钮生成Hello World...';
+            output.className = 'output-box';
+            showToast('输出已清空', 'success');
+        }
+        
+        // 下载输出
+        function downloadOutput() {
+            const output = document.getElementById('output');
+            const text = output.textContent;
+            
+            if (!text || text === '点击上方按钮生成Hello World...') {
+                showToast('没有内容可下载', 'warning');
+                return;
+            }
+            
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            
+            a.href = url;
+            a.download = `hello_world_${new Date().getTime()}.txt`;
+            a.click();
+            
+            URL.revokeObjectURL(url);
+            showToast('文件下载成功！', 'success');
+        }
+        
+        // 键盘快捷键
+        document.addEventListener('keydown', function(event) {
+            // Ctrl + 1: 基础生成
+            if (event.ctrlKey && event.key === '1') {
+                event.preventDefault();
+                generateBasic();
+            }
+            
+            // Ctrl + 2: 批量生成
+            if (event.ctrlKey && event.key === '2') {
+                event.preventDefault();
+                generateMultiple();
+            }
+            
+            // Ctrl + 3: 自定义生成
+            if (event.ctrlKey && event.key === '3') {
+                event.preventDefault();
+                generateCustom();
+            }
+            
+            // Ctrl + C: 复制
+            if (event.ctrlKey && event.key === 'c') {
+                const activeElement = document.activeElement;
+                if (!activeElement || activeElement.tagName === 'BODY') {
+                    event.preventDefault();
+                    copyToClipboard();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

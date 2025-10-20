@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Hello World 生成器 - 陈磊 20231201065</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- 头部 -->
+        <header class="header">
+            <h1><i class="fas fa-globe-americas"></i> Web Hello World 生成器</h1>
+            <div class="author-info">
+                <span class="author">作者: 陈磊</span>
+                <span class="student-id">学号: 20231201065</span>
+            </div>
+        </header>
+
+        <!-- 控制面板 -->
+        <div class="control-panel">
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="basic">基础生成</button>
+                <button class="tab-btn" data-tab="multiple">批量生成</button>
+                <button class="tab-btn" data-tab="custom">自定义生成</button>
+            </div>
+
+            <!-- 基础生成标签页 -->
+            <div id="basic" class="tab-content active">
+                <div class="form-group">
+                    <button class="generate-btn" onclick="generateBasic()">
+                        <i class="fas fa-bolt"></i> 生成 Hello World
+                    </button>
+                </div>
+            </div>
+
+            <!-- 批量生成标签页 -->
+            <div id="multiple" class="tab-content">
+                <div class="form-group">
+                    <label for="count">生成数量 (1-100):</label>
+                    <input type="number" id="count" min="1" max="100" value="5" class="form-input">
+                    <button class="generate-btn" onclick="generateMultiple()">
+                        <i class="fas fa-layer-group"></i> 批量生成
+                    </button>
+                </div>
+            </div>
+
+            <!-- 自定义生成标签页 -->
+            <div id="custom" class="tab-content">
+                <div class="form-group">
+                    <label for="language">语言:</label>
+                    <select id="language" class="form-input">
+                        <option value="english">English</option>
+                        <option value="chinese">中文</option>
+                        <option value="spanish">Español</option>
+                        <option value="french">Français</option>
+                        <option value="german">Deutsch</option>
+                        <option value="japanese">日本語</option>
+                        <option value="korean">한국어</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="style">风格:</label>
+                    <select id="style" class="form-input">
+                        <option value="normal">普通</option>
+                        <option value="excited">兴奋</option>
+                        <option value="formal">正式</option>
+                        <option value="casual">休闲</option>
+                        <option value="tech">科技</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="generate-btn" onclick="generateCustom()">
+                        <i class="fas fa-magic"></i> 自定义生成
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 输出区域 -->
+        <div class="output-section">
+            <h3><i class="fas fa-code"></i> 输出结果</h3>
+            <div class="output-container">
+                <pre id="output" class="output-box">点击上方按钮生成Hello World...</pre>
+            </div>
+            <div class="output-actions">
+                <button class="action-btn" onclick="copyToClipboard()">
+                    <i class="fas fa-copy"></i> 复制
+                </button>
+                <button class="action-btn" onclick="clearOutput()">
+                    <i class="fas fa-trash"></i> 清空
+                </button>
+                <button class="action-btn" onclick="downloadOutput()">
+                    <i class="fas fa-download"></i> 下载
+                </button>
+            </div>
+        </div>
+
+        <!-- API信息 -->
+        <div class="api-section">
+            <h3><i class="fas fa-plug"></i> API接口</h3>
+            <div class="api-endpoints">
+                <div class="api-endpoint">
+                    <code>GET /api/hello</code>
+                    <span>基础Hello World</span>
+                </div>
+                <div class="api-endpoint">
+                    <code>GET /api/hello/multiple?count=5</code>
+                    <span>批量生成</span>
+                </div>
+                <div class="api-endpoint">
+                    <code>GET /api/hello/custom?language=chinese&style=excited</code>
+                    <span>自定义生成</span>
+                </div>
+                <div class="api-endpoint">
+                    <code>GET /api/info</code>
+                    <span>应用信息</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>&copy; 2024 陈磊 - 学号: 20231201065</p>
+            <p>GitHub: <a href="https://github.com/yi661/20231201065-" target="_blank">https://github.com/yi661/20231201065-</a></p>
+        </footer>
+    </div>
+
+    <!-- 消息提示 -->
+    <div id="toast" class="toast"></div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
